@@ -1,7 +1,7 @@
 import "./App.css";
 
 function App() {
-  return <></>;
+  return <>Timer Project</>;
 }
 
 export default App;
