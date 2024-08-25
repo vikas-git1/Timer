@@ -2,41 +2,39 @@ import React, { useState, useEffect } from "react";
 import "./Timer.css"; // Import the CSS file
 
 const Timer = () => {
-  const [time, setTime] = useState(0);
-  const [min, setMin] = useState(0);
+  const [timer, setTimer] = useState(59);
   const [isActive, setIsActive] = useState(false);
-
   useEffect(() => {
-    let timer;
-
-    if (isActive) {
-      timer = setInterval(() => {
-        setTime((prev) => (prev >= 59 ? 0 : prev + 1));
-        if (time === 59) {
-          setMin((prev) => prev + 1);
-        }
-      }, 1000);
+    let intervalId;
+    if (isActive && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 100);
     }
 
-    return () => clearInterval(timer);
-  }, [isActive, time]);
+    return () => clearInterval(intervalId);
+  }, [isActive, timer]);
 
-  const handleTimer = () => {
-    setIsActive((prev) => !prev);
-    console.log(isActive);
+  const handleStart = () => setIsActive((prev) => !prev);
+  const handleRestart = () => {
+    setIsActive(false);
+    setTimer(59);
   };
-
   return (
     <div className="timer-container">
-      <h1 className="timer-display">
-        Timer: {min} min : {time} s
-      </h1>
-      <button
-        className={`timer-button ${isActive ? "active" : ""}`}
-        onClick={handleTimer}
-      >
-        {isActive ? "Stop Timer" : "Start Timer"}
-      </button>
+      <h1 className="timer-display">{timer} sec</h1>
+
+      <div className="btn_container">
+        <button
+          className={`button ${isActive ? "start_btn_active" : ""}`}
+          onClick={handleStart}
+        >
+          {isActive ? "Pause" : "Start"}
+        </button>
+        <button className={`button`} onClick={handleRestart}>
+          Reset
+        </button>
+      </div>
     </div>
   );
 };
