@@ -9,7 +9,7 @@ const Timer = () => {
     if (isActive && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prev) => prev - 1);
-      }, 100);
+      }, 1000);
     }
 
     return () => clearInterval(intervalId);
